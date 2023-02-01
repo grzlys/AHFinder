@@ -24,6 +24,18 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.15.3'
 
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.24.2'
+
+}
+
+test {
+    useJUnitPlatform()
 }
 
 application {
