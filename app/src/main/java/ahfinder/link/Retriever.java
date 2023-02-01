@@ -1,25 +1,45 @@
 package ahfinder.link;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Retriever {
 
-    public List<String> retrieveLinksFrom(String websiteUrl) throws IOException {
-        Document doc = Jsoup.connect(websiteUrl).get();
-        Elements links = doc.select("a[href]");
+    // TODO 1. make url pattern allowing only urls starts with https://en.wikipedia.org
+    //      2. do some refactor because if (doc != null) doesnt looks profesional...
+    //      3. Create unit test for positive and negative scenario (Http 200/400)
 
-        List<String> result = new ArrayList<>();
-        for (Element link : links) {
-            result.add(link.attr("abs:href"));
+    public static List<String> retrieveLinksFrom(String websiteUrl) {
+        Connection connect = Jsoup.connect(websiteUrl);
+        List<String> result = new LinkedList<>();
+
+        Document doc = getDocument(websiteUrl, connect);
+
+        if (doc != null) {
+            Elements links = doc.select("a[href]");
+            for (Element link : links) {
+                result.add(link.attr("abs:href"));
+            }
         }
         return result;
+    }
+
+    private static Document getDocument(String websiteUrl, Connection connect) {
+        Document doc = null;
+        try {
+            doc = connect.get();
+        } catch (IOException e) {
+            System.out.println("Cannot connect to url: " + websiteUrl + " due to " + e.getMessage());
+        }
+        return doc;
     }
 
 }
