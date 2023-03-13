@@ -19,8 +19,11 @@ public class App {
 //        testLinks();
 
         try {
+            long startTime = System.currentTimeMillis();
             Graph graph = Graph.fillGraphWithDepthFrom(PRZECIESZYN, 1);
-            System.out.println(graph.getVertexes().size());
+            long endTime = System.currentTimeMillis();
+            long duration = (endTime - startTime);
+            System.out.println("Grapch size (Vertices): " + graph.getVertexes().size() + " collected in " + duration + " milis");
         } catch (IOException e) {
             e.printStackTrace();
         }

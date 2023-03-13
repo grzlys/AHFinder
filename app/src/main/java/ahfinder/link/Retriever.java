@@ -7,7 +7,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,17 +18,20 @@ public class Retriever {
 
     public static List<String> retrieveLinksFrom(String websiteUrl) {
         Connection connect = Jsoup.connect(websiteUrl);
-        List<String> result = new LinkedList<>();
+        List<String> linksOnWebsite = new LinkedList<>();
 
         Document doc = getDocument(websiteUrl, connect);
 
         if (doc != null) {
             Elements links = doc.select("a[href]");
             for (Element link : links) {
-                result.add(link.attr("abs:href"));
+                String url = link.attr("abs:href");
+                if (url.startsWith("https://en.wikipedia.org")) {
+                    linksOnWebsite.add(url);
+                }
             }
         }
-        return result;
+        return linksOnWebsite;
     }
 
     private static Document getDocument(String websiteUrl, Connection connect) {

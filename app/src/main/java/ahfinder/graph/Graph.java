@@ -18,7 +18,6 @@ public class Graph {
     private static final List<Vertex> EMPTY_LIST = new LinkedList<>();
     private List<Vertex> vertexes;
 
-
     // TODO where remove duplicated vertices. investigate situation where 2 different vertices
     //      has the same url, and the same distance form root  (2nd input example, two vertices with distance from origin = 0)
     public static Graph fillGraphWithDepthFrom(@NonNull String startingUrl, int depth) throws IOException {
@@ -41,6 +40,7 @@ public class Graph {
                     });
             currentDepth++;
         }
+        graph.removeDuplicates();
         return graph;
     }
 
@@ -55,5 +55,9 @@ public class Graph {
 
     private void addNewVertexes(List<Vertex> list) {
         vertexes.addAll(list);
+    }
+
+    private void removeDuplicates() {
+        this.vertexes = this.getVertexes().stream().distinct().collect(Collectors.toList());
     }
 }
