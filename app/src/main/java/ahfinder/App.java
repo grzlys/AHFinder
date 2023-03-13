@@ -1,9 +1,10 @@
 package ahfinder;
 
 import ahfinder.graph.Graph;
+import ahfinder.graph.Vertex;
 import ahfinder.link.Retriever;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 public class App {
@@ -24,9 +25,17 @@ public class App {
             long endTime = System.currentTimeMillis();
             long duration = (endTime - startTime);
             System.out.println("Grapch size (Vertices): " + graph.getVertexes().size() + " collected in " + duration + " milis");
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void saveToFile(String message) throws IOException {
+        PrintWriter out = new PrintWriter(new FileWriter("output_afc_2.txt", true), true);
+        out.write(message + '\n');
+        out.close();
     }
 
     private static void testLinks() {
